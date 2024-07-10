@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface iside {
   icon?: any;
@@ -11,8 +11,10 @@ interface iside {
 }
 
 const Sidenavigation: React.FC<iside> = ({ text, color, icon, mt, to }) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
   return (
-    <Container to={to} cl={color} mt={mt}>
+    <Container to={to} cl={color} mt={mt} active={isActive}>
       {icon}
       <p>{text}</p>
     </Container>
@@ -21,10 +23,10 @@ const Sidenavigation: React.FC<iside> = ({ text, color, icon, mt, to }) => {
 
 export default Sidenavigation;
 
-const Container = styled(Link)<{ cl: string; mt: string }>`
+const Container = styled(Link)<{ cl: string; mt: string; active: boolean }>`
   width: 90%;
   height: 60px;
-  background-color: ${({ cl }) => cl};
+  background-color: ${({ cl, active }) => (active ? cl : "transparent")};
   margin-top: ${({ mt }) => mt};
   display: flex;
   align-items: center;
@@ -39,7 +41,7 @@ const Container = styled(Link)<{ cl: string; mt: string }>`
     background-color: #e22e6e;
   }
   p {
-    font-size: 17px;
+    font-size: 25px;
     color: white;
   }
 `;
