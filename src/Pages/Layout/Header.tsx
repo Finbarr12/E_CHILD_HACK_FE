@@ -6,11 +6,7 @@ import styled from "styled-components"
 const Header = () => {
 
   const [change, setChange] = useState<boolean>(false)
-  const [show, setShow] = useState<boolean>(false)
 
-  const Toggle = () =>{
-    setShow(!show)
-  }
 
   const ChangeToggle = () =>{
     if (window.scrollY > 70) {
@@ -98,7 +94,6 @@ const Header = () => {
 export default Header
 
 
-// const f = styled.div``
 
 const Button = styled.button`
 width: 100px;
