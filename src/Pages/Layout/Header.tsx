@@ -25,7 +25,7 @@ const Header = () => {
           <Right>
           <Logo src={"/"} alt="logo" />
           </Right>
-          <Middle>
+          <Middle col="white">
           <Link to="home" duration={500} smooth={true} offset={-50}>
           <nav>Home</nav>
           </Link>
@@ -58,7 +58,7 @@ const Header = () => {
           <Right>
           <Logo src={"/"} alt="logo" />
           </Right>
-          <Middle>
+          <Middle col="black">
             <Link to="home" duration={500} smooth={true} offset={-50}>
             <nav>Home</nav>
             </Link>
@@ -116,13 +116,14 @@ justify-content: space-between;
 }
 `
 
-const Middle = styled.div`
+const Middle = styled.div<{col:string}>`
 width: 500px;
 height: 60px;
 display: flex;
 justify-content: space-between;
 align-items: center;
 cursor: pointer;
+color: ${({col}) => col};
 
 nav{
   font-size: 20px;
