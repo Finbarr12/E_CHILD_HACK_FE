@@ -6,16 +6,20 @@ import SpeechRecognition, {
 import { useTeacher } from "../context/TeacherContext";
 import male from "../assets/mteachrm.png";
 import female from "../assets/teacherGrm.png";
-import { FaMicrophoneLines } from "react-icons/fa6";
+import { FaMicrophoneLines, FaPause } from "react-icons/fa6";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const API_KEY = "AIzaSyA0XSZlTv6JekXe3CH7KAq43ZhjB1DD898";
 
 const AskQuestion = () => {
   const { teacher } = useTeacher();
-  const [response, setResponse] = useState<string | null>(null);
-  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+  const [responses, setResponses] = useState<string[]>([]);
   const [isListening, setIsListening] = useState(false);
+  const [synth, setSynth] = useState<SpeechSynthesis | null>(null);
+  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
+    null
+  );
+  const { transcript, listening, resetTranscript } = useSpeechRecognition();
 
   let greetingMessage = "";
 
@@ -27,6 +31,9 @@ const AskQuestion = () => {
   }
 
   const handleMicClick = () => {
+    if (synth) {
+      synth.cancel(); // Stop the current speech
+    }
     if (isListening) {
       SpeechRecognition.stopListening();
       handleAIResponse(transcript);
@@ -34,6 +41,12 @@ const AskQuestion = () => {
       SpeechRecognition.startListening({ continuous: true });
     }
     setIsListening(!isListening);
+  };
+
+  const handlePauseClick = () => {
+    if (synth) {
+      synth.cancel(); // Stop the current speech
+    }
   };
 
   const handleAIResponse = async (question: string) => {
@@ -55,7 +68,7 @@ const AskQuestion = () => {
         const aiResponse = `I am ${
           teacher === "Clara" ? "Mrs. Clara" : "Mr. Alvin"
         }, your AI instructor, created by Ogbonna Finbarr and Okonkwo Johnbosco.`;
-        setResponse(aiResponse);
+        setResponses((prevResponses) => [...prevResponses, aiResponse]);
         speak(aiResponse);
       } else if (isEducationalQuestion(question)) {
         const responseObj = await model.generateContent(question);
@@ -64,17 +77,17 @@ const AskQuestion = () => {
         const fullResponse = parseResponse(responseObj);
 
         if (fullResponse) {
-          setResponse(fullResponse);
+          setResponses((prevResponses) => [...prevResponses, fullResponse]);
           speak(fullResponse);
         } else {
           const errorMessage =
             "I'm sorry, I couldn't generate a meaningful response to your question.";
-          setResponse(errorMessage);
+          setResponses((prevResponses) => [...prevResponses, errorMessage]);
           speak(errorMessage);
         }
       } else {
         const errorMessage = "I'm here to answer educational questions only.";
-        setResponse(errorMessage);
+        setResponses((prevResponses) => [...prevResponses, errorMessage]);
         speak(errorMessage);
       }
 
@@ -83,7 +96,7 @@ const AskQuestion = () => {
       console.error("Error fetching AI response:", error);
       const errorMessage =
         "I'm sorry, there was an error fetching the response. Please try again later.";
-      setResponse(errorMessage);
+      setResponses((prevResponses) => [...prevResponses, errorMessage]);
       speak(errorMessage);
     }
   };
@@ -102,10 +115,12 @@ const AskQuestion = () => {
   };
 
   const speak = (text: string) => {
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "en-US";
-    synth.speak(utterance);
+    const synthInstance = window.speechSynthesis;
+    const utteranceInstance = new SpeechSynthesisUtterance(text);
+    utteranceInstance.lang = "en-US";
+    synthInstance.speak(utteranceInstance);
+    setSynth(synthInstance);
+    setUtterance(utteranceInstance);
   };
 
   useEffect(() => {
@@ -126,21 +141,7 @@ const AskQuestion = () => {
 
   return (
     <GreetingContainer>
-      {response ? (
-        <MainHolder>
-          <Circle
-            style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-          >
-            {teacher === "Clara" ? (
-              <img src={female} alt="Mrs. Clara" />
-            ) : (
-              <img src={male} alt="Mr. Alvin" />
-            )}
-          </Circle>
-
-          <p>{response}</p>
-        </MainHolder>
-      ) : (
+      {responses.length === 0 && (
         <MainHolder>
           <Circle>
             {teacher === "Clara" ? (
@@ -154,10 +155,29 @@ const AskQuestion = () => {
           </RemarkBox>
         </MainHolder>
       )}
+      <ResponsesContainer>
+        {responses.map((response, index) => (
+          <ResponseBox key={index}>
+            <Circle>
+              {teacher === "Clara" ? (
+                <img src={female} alt="Mrs. Clara" />
+              ) : (
+                <img src={male} alt="Mr. Alvin" />
+              )}
+            </Circle>
+            <p>{response}</p>
+          </ResponseBox>
+        ))}
+      </ResponsesContainer>
       <MicHolder>
         <MicHold onClick={handleMicClick} isListening={isListening}>
-          <FaMicrophoneLines size={30} />
+          {isListening ? (
+            <FaPause size={30} />
+          ) : (
+            <FaMicrophoneLines size={30} />
+          )}
         </MicHold>
+        <PauseButton onClick={handlePauseClick}>Pause</PauseButton>
       </MicHolder>
       {transcript && (
         <UserInputBox>
@@ -201,10 +221,19 @@ export default AskQuestion;
 
 const GreetingContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 80%;
   height: 100vh;
-  position: relative;
   font-family: "Poppins", sans-serif;
+  position: relative;
+`;
+
+const ResponsesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
 `;
 
 const RemarkBox = styled.div`
@@ -265,20 +294,6 @@ const RemarkBox = styled.div`
   }
 `;
 
-const ResponseBox = styled.div`
-  background-color: #fff;
-  border: 2px solid #e22e6e;
-  border-radius: 15px;
-  padding: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  text-align: center;
-  position: absolute;
-  bottom: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
 const MainHolder = styled.div`
   display: flex;
   margin-top: 40px;
@@ -299,62 +314,90 @@ const Circle = styled.div`
   align-items: center;
   justify-content: center;
   margin-right: 20px;
-  margin-left: 20px;
 `;
 
 const MicHolder = styled.div`
-  width: 100%;
-  height: 80px;
-  position: absolute;
-  bottom: 6%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
 `;
 
-const MicHold = styled.div<{ isListening: boolean }>`
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background-color: #e3306f;
+const MicHold = styled.button<{ isListening: boolean }>`
+  background-color: ${(props) => (props.isListening ? "#e22e6e" : "#4CAF50")};
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 15px 20px;
+  border: none;
   cursor: pointer;
-  position: relative;
-  animation: ${({ isListening }) =>
-    isListening ? "pulse 1.5s infinite" : "none"};
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
 
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-      box-shadow: 0 0 0 0 rgba(227, 48, 111, 0.7);
-    }
-    70% {
-      transform: scale(1.1);
-      box-shadow: 0 0 0 20px rgba(227, 48, 111, 0);
-    }
-    100% {
-      transform: scale(1);
-      box-shadow: 0 0 0 0 rgba(227, 48, 111, 0);
-    }
+  &:hover {
+    background-color: ${(props) => (props.isListening ? "#b81e56" : "#45a049")};
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const PauseButton = styled.button`
+  margin-top: 10px;
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+
+  &:focus {
+    outline: none;
   }
 `;
 
 const UserInputBox = styled.div`
-  background-color: #f0f0f0;
-  border: 2px solid #e22e6e;
-  border-radius: 15px;
-  padding: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  text-align: center;
   position: absolute;
-  bottom: 40%;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 80px;
+  right: 20px;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 70%;
+  text-align: right;
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
 `;
 
-// export default AskQuestion;
+const ResponseBox = styled.div`
+  width: 90%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  margin-left: 20px;
+
+  background-color: red;
+
+  img {
+    height: 80px;
+    object-fit: cover;
+  }
+  p {
+    margin: 0;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #333;
+  }
+`;

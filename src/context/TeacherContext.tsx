@@ -7,7 +7,7 @@ import React, {
 } from "react";
 
 type TeacherContextType = {
-  teacher: string | null;
+  teacher: string | any;
   selectTeacher: (teacher: string) => void;
 };
 
