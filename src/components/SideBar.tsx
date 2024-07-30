@@ -34,7 +34,7 @@ const SideBar = () => {
               size={20}
             />
           }
-          color="transparent"
+          color="#E22E6E"
           text="Quiz"
           mt="7px"
         />
@@ -46,7 +46,7 @@ const SideBar = () => {
               size={20}
             />
           }
-          color="transparent"
+          color="#E22E6E"
           text="Poems"
           mt="7px"
         />
@@ -58,7 +58,7 @@ const SideBar = () => {
               size={20}
             />
           }
-          color="transparent"
+          color="#E22E6E"
           text="Fun Facts"
           mt="7px"
         />
@@ -101,6 +101,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   /* background-color: red; */
+  font-family: "Butterfly Kids", cursive;
 `;
 const Wrapper = styled.div`
   width: 100%;
