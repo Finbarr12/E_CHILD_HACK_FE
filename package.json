@@ -10,21 +10,26 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@babel/plugin-transform-runtime": "^7.24.7",
     "@babel/runtime": "^7.24.8",
     "@google/generative-ai": "^0.14.1",
     "@types/annyang": "^2.6.5",
     "@types/react-icons": "^3.0.0",
     "@types/react-router-dom": "^5.3.3",
+    "@types/react-scroll": "^1.8.10",
     "@types/react-speech-recognition": "^3.9.5",
     "@types/styled-components": "^5.1.34",
     "annyang": "^2.6.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.52.1",
     "react-icons": "^5.2.1",
     "react-router-dom": "^6.24.1",
+    "react-scroll": "^1.9.0",
     "react-speech-recognition": "^3.10.0",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
