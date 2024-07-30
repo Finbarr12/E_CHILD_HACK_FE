@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import styled from "styled-components";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -19,7 +19,9 @@ const AskQuestion = () => {
   const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
     null
   );
+  console.log(utterance)
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
+  console.log(listening)
 
   let greetingMessage = "";
 
