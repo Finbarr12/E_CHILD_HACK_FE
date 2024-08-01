@@ -26,12 +26,12 @@ const MeetourTeam = () => {
                     </a>
                     </Circle1>
                     <Circle1>
-                    <a href="#">
+                    <a href="https://web.facebook.com/finbizz.davinci/">
                     <FaFacebook size={20}/>
                     </a>
                     </Circle1>
                     <Circle1>
-                    <a href="#">
+                    <a href="https://www.linkedin.com/in/finbarr-ihechukwu-661523253/">
                     <FaLinkedin size={20}/>
                     </a>
                     </Circle1>
@@ -149,6 +149,7 @@ gap: 40px;
 @media screen and (max-width:900px){
   flex-wrap: wrap;
   height: 200vh;
+  margin-top: 20px;
 }
 `
 
@@ -174,6 +175,10 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 
+@media screen and (max-width:900px){
+  height: 110vh;
+}
+
 `
 
 const Container = styled.div`
@@ -183,5 +188,9 @@ background: #F5F5F5;
 display: flex;
 align-items: center;
 justify-content: center;
+
+@media screen and (max-width:900px){
+  height: 130vh;
+}
 
 `

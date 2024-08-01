@@ -1,46 +1,30 @@
-import { useState } from "react"
 import { NavLink } from "react-router-dom"
-import { Link } from "react-scroll"
 import styled from "styled-components"
+import logo from "../../assets/EChild.png"
+import { useState } from "react"
 
 const Header = () => {
 
-  const [change, setChange] = useState<boolean>(false)
+  const [show, Setshow] = useState<boolean>(false)
 
-
-  const ChangeToggle = () =>{
-    if (window.scrollY > 70) {
-      setChange(true)
-    } else {
-      setChange(false)
-    }
+  const Toggle = () =>{
+    Setshow(!show)
   }
-  window.addEventListener("scroll", ChangeToggle)
+
   return (
     <>
-    {
-      change ? (
-        <Container bg="#e22e6e"  style={{ backdropFilter: "10", WebkitBackdropFilter: "10px" }}>
+    
+        <Container   style={{ backdropFilter: "10", WebkitBackdropFilter: "10px" }}>
         <Warpper>
           <Right>
-          <Logo src={"/"} alt="logo" />
+          <Logo src={logo} alt="logo" />
           </Right>
-          <Middle col="white">
-          <Link to="home" duration={500} smooth={true} offset={-50}>
+          <Middle>
           <nav>Home</nav>
-          </Link>
-            <Link to="mission" duration={500} smooth={true} offset={-50}>
             <nav>Mission</nav>
-            </Link>
-            <Link to="vision" duration={500} smooth={true} offset={-50}>
             <nav>Vision</nav>
-            </Link>
-            <Link to="values" duration={500} smooth={true} offset={-50}>
             <nav>Values</nav>
-            </Link>
-            <Link to="teams" duration={500} smooth={true} offset={-50}>
             <nav>Teams</nav>
-            </Link>
           </Middle>
           <Left>
             <NavLink to={"/signup"}>
@@ -52,43 +36,11 @@ const Header = () => {
           </Left>
         </Warpper>
     </Container>
-      ) : (
-        <Container bg="#F5F5F5" >
-        <Warpper>
-          <Right>
-          <Logo src={"/"} alt="logo" />
-          </Right>
-          <Middle col="black">
-            <Link to="home" duration={500} smooth={true} offset={-50}>
-            <nav>Home</nav>
-            </Link>
-            <Link to="mission" duration={500} smooth={true} offset={-50}>
-            <nav>Mission</nav>
-            </Link>
-            <Link to="vision" duration={500} smooth={true} offset={-50}>
-            <nav>Vision</nav>
-            </Link>
-            <Link to="values" duration={500} smooth={true} offset={-50}>
-            <nav>Values</nav>
-            </Link>
-            <Link to="teams" duration={500} smooth={true} offset={-50}>
-            <nav>Teams</nav>
-            </Link>
-          </Middle>
-          <Left>
-            <NavLink to={"/signup"} >
-            <Button>Signup</Button>
-            </NavLink>
-            <NavLink to={"/signin"}>
-            <Button>Signin</Button>
-            </NavLink>
-          </Left>
-        </Warpper>
-    </Container>
-      )
-    }
+      
+    
     </>
-  )
+    )
+  
 }
 
 export default Header
@@ -102,6 +54,7 @@ border-radius: 10px;
 border: 1px solid black;
 font-size: 20px;
 cursor: pointer;
+font-family: "Butterfly Kids", cursive;
 `
 
 const Left = styled.div`
@@ -116,18 +69,18 @@ justify-content: space-between;
 }
 `
 
-const Middle = styled.div<{col:string}>`
+const Middle = styled.div`
 width: 500px;
 height: 60px;
 display: flex;
 justify-content: space-between;
 align-items: center;
 cursor: pointer;
-color: ${({col}) => col};
 
 nav{
   font-size: 20px;
   font-weight: bold;
+  font-family: "Butterfly Kids", cursive;
 }
 
 @media screen and (max-width:900px){
@@ -138,26 +91,31 @@ nav{
 const Right = styled.div`
 width: 100px;
 height: 60px;
-background-color: red;
+display: flex;
+align-items: center;
+justify-content: center;
 `
 
-const Logo = styled.img``
+const Logo = styled.img`
+height: 70px;
+width: 70px;
+`
 
 const Warpper = styled.div`
 width: 95%;
-height: 60px;
+height: 70px;
 display: flex;
 align-items: center;
 justify-content: space-between;
 `
 
-const Container = styled.div<{bg: string}>`
+const Container = styled.div`
 width: 100%;
-height: 60px;
+height: 70px;
 display: flex;
 align-items: center;
 justify-content: center;
-background-color: ${({bg}) => bg};
+background-color: #F5F5F5;
 position: sticky;
   top: 0%;
   z-index: 5;
