@@ -1,8 +1,15 @@
 import { NavLink } from "react-router-dom"
 import styled from "styled-components"
 import logo from "../../assets/EChild.png"
+import { useState } from "react"
 
 const Header = () => {
+
+  const [show, Setshow] = useState<boolean>(false)
+
+  const Toggle = () =>{
+    Setshow(!show)
+  }
 
   return (
     <>
