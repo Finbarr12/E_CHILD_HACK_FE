@@ -1,15 +1,16 @@
 import { NavLink } from "react-router-dom"
 import styled from "styled-components"
 import logo from "../../assets/EChild.png"
-import { useState } from "react"
+// import { useState } from "react"
+import { CiMenuBurger } from "react-icons/ci"
 
 const Header = () => {
 
-  const [show, Setshow] = useState<boolean>(false)
+  // const [show, Setshow] = useState<boolean>(false)
 
-  const Toggle = () =>{
-    Setshow(!show)
-  }
+  // const Toggle = () =>{
+  //   Setshow(!show)
+  // }
 
   return (
     <>
@@ -34,6 +35,7 @@ const Header = () => {
             <Button>Signin</Button>
             </NavLink>
           </Left>
+          <CiMenuBurger size={30} />
         </Warpper>
     </Container>
       
