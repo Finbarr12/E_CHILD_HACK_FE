@@ -102,6 +102,10 @@ const Container = styled.div`
   justify-content: center;
   /* background-color: red; */
   font-family: "Butterfly Kids", cursive;
+
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 const Wrapper = styled.div`
   width: 100%;

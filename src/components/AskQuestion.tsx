@@ -13,17 +13,23 @@ const API_KEY = "AIzaSyA0XSZlTv6JekXe3CH7KAq43ZhjB1DD898";
 
 const AskQuestion = () => {
   const { teacher } = useTeacher();
-  const [responses, setResponses] = useState<string[]>([]);
+  const [responses, setResponses] = useState<
+    { type: "user" | "ai"; text: string }[]
+  >(() => {
+    // Load messages from localStorage if available
+    const savedResponses = localStorage.getItem("responses");
+    return savedResponses ? JSON.parse(savedResponses) : [];
+  });
   const [isListening, setIsListening] = useState(false);
   const [synth, setSynth] = useState<SpeechSynthesis | null>(null);
   const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
     null
   );
-  console.log(utterance, "my utterance");
-  const { transcript, listening, resetTranscript } = useSpeechRecognition();
-  console.log(listening);
+  const { transcript, resetTranscript } = useSpeechRecognition();
 
   let greetingMessage = "";
+
+  console.log(utterance);
 
   if (teacher) {
     greetingMessage =
@@ -34,7 +40,7 @@ const AskQuestion = () => {
 
   const handleMicClick = () => {
     if (synth) {
-      synth.cancel(); // Stop the current speech
+      synth.cancel();
     }
     if (isListening) {
       SpeechRecognition.stopListening();
@@ -47,18 +53,26 @@ const AskQuestion = () => {
 
   const handlePauseClick = () => {
     if (synth) {
-      synth.cancel(); // Stop the current speech
+      synth.cancel();
     }
   };
 
   const handleAIResponse = async (question: string) => {
-    console.log("User's question:", question); // Debugging log
+    console.log("User's question:", question);
 
     try {
       const genAI = new GoogleGenerativeAI(API_KEY);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      // Check if the question is about name or creators
+      setResponses((prevResponses: any) => {
+        const newResponses = [
+          ...prevResponses,
+          { type: "user", text: question },
+        ];
+        localStorage.setItem("responses", JSON.stringify(newResponses));
+        return newResponses;
+      });
+
       if (
         question.toLowerCase().includes("who created you") ||
         question.toLowerCase().includes("who made you") ||
@@ -70,26 +84,54 @@ const AskQuestion = () => {
         const aiResponse = `I am ${
           teacher === "Clara" ? "Mrs. Clara" : "Mr. Alvin"
         }, your AI instructor, created by Ogbonna Finbarr and Okonkwo Johnbosco.`;
-        setResponses((prevResponses) => [...prevResponses, aiResponse]);
+        setResponses((prevResponses: any) => {
+          const newResponses = [
+            ...prevResponses,
+            { type: "ai", text: aiResponse },
+          ];
+          localStorage.setItem("responses", JSON.stringify(newResponses));
+          return newResponses;
+        });
         speak(aiResponse);
       } else if (isEducationalQuestion(question)) {
         const responseObj = await model.generateContent(question);
-        console.log("Response object from Gemini:", responseObj); // Debugging log
+        console.log("Response object from Gemini:", responseObj);
 
         const fullResponse = parseResponse(responseObj);
 
         if (fullResponse) {
-          setResponses((prevResponses) => [...prevResponses, fullResponse]);
+          setResponses((prevResponses: any) => {
+            const newResponses = [
+              ...prevResponses,
+              { type: "ai", text: fullResponse },
+            ];
+            localStorage.setItem("responses", JSON.stringify(newResponses));
+            return newResponses;
+          });
           speak(fullResponse);
         } else {
           const errorMessage =
             "I'm sorry, I couldn't generate a meaningful response to your question.";
-          setResponses((prevResponses) => [...prevResponses, errorMessage]);
+          setResponses((prevResponses: any) => {
+            const newResponses = [
+              ...prevResponses,
+              { type: "ai", text: errorMessage },
+            ];
+            localStorage.setItem("responses", JSON.stringify(newResponses));
+            return newResponses;
+          });
           speak(errorMessage);
         }
       } else {
         const errorMessage = "I'm here to answer educational questions only.";
-        setResponses((prevResponses) => [...prevResponses, errorMessage]);
+        setResponses((prevResponses: any) => {
+          const newResponses = [
+            ...prevResponses,
+            { type: "ai", text: errorMessage },
+          ];
+          localStorage.setItem("responses", JSON.stringify(newResponses));
+          return newResponses;
+        });
         speak(errorMessage);
       }
 
@@ -98,21 +140,24 @@ const AskQuestion = () => {
       console.error("Error fetching AI response:", error);
       const errorMessage =
         "I'm sorry, there was an error fetching the response. Please try again later.";
-      setResponses((prevResponses) => [...prevResponses, errorMessage]);
+      setResponses((prevResponses: any) => {
+        const newResponses = [
+          ...prevResponses,
+          { type: "ai", text: errorMessage },
+        ];
+        localStorage.setItem("responses", JSON.stringify(newResponses));
+        return newResponses;
+      });
       speak(errorMessage);
     }
   };
 
   const isEducationalQuestion = (question: string): boolean => {
-    // Implement your logic to determine if the question is educational
-    // Example: Check for keywords or topics related to children's education
     return (
       !question.toLowerCase().includes("illegal") &&
       !question.toLowerCase().includes("illicit") &&
       !question.toLowerCase().includes("inappropriate") &&
       !question.toLowerCase().includes("offensive")
-
-      // Add more educational keywords or topics as needed
     );
   };
 
@@ -137,10 +182,6 @@ const AskQuestion = () => {
     return <div>Your browser does not support speech recognition.</div>;
   }
 
-  useEffect(() => {
-    console.log("Transcript:", transcript); // Debugging log
-  }, [transcript]);
-
   return (
     <GreetingContainer>
       {responses.length === 0 && (
@@ -159,15 +200,23 @@ const AskQuestion = () => {
       )}
       <ResponsesContainer>
         {responses.map((response, index) => (
-          <ResponseBox key={index}>
-            <Circle>
-              {teacher === "Clara" ? (
-                <img src={female} alt="Mrs. Clara" />
+          <ResponseBox key={index} type={response.type}>
+            <>
+              {response.type === "ai" ? (
+                teacher === "Clara" ? (
+                  <Circle1>
+                    <img src={female} alt="Mrs. Clara" />
+                  </Circle1>
+                ) : (
+                  <Circle1>
+                    <img src={male} alt="Mr. Alvin" />
+                  </Circle1>
+                )
               ) : (
-                <img src={male} alt="Mr. Alvin" />
+                <UserIcon>OF</UserIcon>
               )}
-            </Circle>
-            <p>{response}</p>
+            </>
+            <p>{response.text}</p>
           </ResponseBox>
         ))}
       </ResponsesContainer>
@@ -179,19 +228,13 @@ const AskQuestion = () => {
             <FaMicrophoneLines size={30} />
           )}
         </MicHold>
-        <PauseButton onClick={handlePauseClick}>Pause</PauseButton>
+        <PauseButton onClick={handlePauseClick}>Stop</PauseButton>
       </MicHolder>
-      {transcript && (
-        <UserInputBox>
-          <p>User: {transcript}</p>
-        </UserInputBox>
-      )}
     </GreetingContainer>
   );
 };
 
 const parseResponse = (responseObj: any): string | null => {
-  // Parse the response object and extract the text content
   try {
     if (
       responseObj &&
@@ -229,6 +272,30 @@ const GreetingContainer = styled.div`
   height: 100vh;
   font-family: "Poppins", sans-serif;
   position: relative;
+  overflow-y: scroll;
+
+  @media screen and (max-width: 500px) {
+    width: 100%;
+    height: calc(100vh - 80px);
+    /* background-color: gold; */
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #e22e6e;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #d41d5c;
+  }
 `;
 
 const ResponsesContainer = styled.div`
@@ -250,11 +317,20 @@ const RemarkBox = styled.div`
   position: relative;
   animation: appear 0.5s ease-in-out, bounce 2s infinite;
 
+  @media screen and (max-width: 500px) {
+    width: 60%;
+    height: 50px;
+  }
+
   h1 {
     font-size: 20px;
     margin: 0;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     color: #333;
+
+    @media screen and (max-width: 500px) {
+      font-size: 13px;
+    }
   }
 
   &::before {
@@ -300,6 +376,11 @@ const MainHolder = styled.div`
   display: flex;
   margin-top: 40px;
 
+  @media screen and (max-width: 500px) {
+    width: 100%;
+    /* background-color: red; */
+  }
+
   img {
     height: 80px;
     object-fit: cover;
@@ -316,17 +397,43 @@ const Circle = styled.div`
   align-items: center;
   justify-content: center;
   margin-right: 20px;
+
+  @media screen and (max-width: 500px) {
+    width: 50px;
+    height: 50px;
+    margin-left: 12px;
+  }
+`;
+const Circle1 = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 4px solid #e3306f;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+
+  img {
+    height: 80px;
+    object-fit: contain;
+  }
 `;
 
 const MicHolder = styled.div`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  bottom: 2%;
 `;
 
 const MicHold = styled.button<{ isListening: boolean }>`
-  background-color: ${(props) => (props.isListening ? "#e22e6e" : "#4CAF50")};
+  background-color: ${(props) => (props.isListening ? "#e22e6e" : "#e22e6e")};
   color: white;
   padding: 15px 20px;
   border: none;
@@ -334,6 +441,13 @@ const MicHold = styled.button<{ isListening: boolean }>`
   border-radius: 50%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+  position: fixed;
+  bottom: 40px;
+
+  @media screen and (max-width: 500px) {
+    bottom: 120px;
+    left: 30%;
+  }
 
   &:hover {
     background-color: ${(props) => (props.isListening ? "#b81e56" : "#45a049")};
@@ -354,6 +468,13 @@ const PauseButton = styled.button`
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+  position: fixed;
+  bottom: 50px;
+  left: 63%;
+
+  @media screen and (max-width: 500px) {
+    bottom: 130px;
+  }
 
   &:hover {
     background-color: #d32f2f;
@@ -364,42 +485,43 @@ const PauseButton = styled.button`
   }
 `;
 
-const UserInputBox = styled.div`
-  position: absolute;
-  bottom: 80px;
-  right: 20px;
-  background-color: #fff;
-  padding: 10px 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 70%;
-  text-align: right;
-
-  p {
-    margin: 0;
-    font-size: 14px;
-    color: #666;
-  }
-`;
-
-const ResponseBox = styled.div`
+const ResponseBox = styled.div<{ type: "user" | "ai" }>`
   width: 90%;
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
-
+  margin-bottom: 20px;
   margin-left: 20px;
+  background-color: ${(props) => (props.type === "ai" ? "#e0f7fa" : "#ffebee")};
+  padding: 10px;
+  border-radius: 15px;
 
-  background-color: red;
-
-  img {
-    height: 80px;
-    object-fit: cover;
+  @media screen and (max-width: 500px) {
+    width: 80%;
   }
+
   p {
     margin: 0;
     margin-left: 10px;
     font-size: 14px;
     color: #333;
+    width: 90%;
+
+    @media screen and (max-width: 500px) {
+      font-size: 13px;
+    }
   }
+`;
+
+const UserIcon = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #e3306f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffebee;
+  color: #e3306f;
+  font-size: 18px;
+  font-weight: bold;
 `;
