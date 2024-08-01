@@ -1,6 +1,6 @@
-import Mission from "./Block/Mission";
-import Values from "./Block/Values";
-import Vision from "./Block/Vision";
+import AboutUs from "./Block/AboutUs";
+import HeroOne from "./Block/HeroOne";import MissionHolder from "./Block/MissionHolder";
+;
 import Footer from "./Layout/Footer";
 import Header from "./Layout/Header";
 import Hero from "./Layout/Hero";
@@ -10,9 +10,9 @@ const Home = () => {
   return <>
   <Header/>
   <Hero/>
-  <Mission/>
-  <Vision/>
-  <Values/>
+  <HeroOne/>
+  <AboutUs/>
+  <MissionHolder/>
   <MeetourTeam/>
   <Footer/>
   </>;
