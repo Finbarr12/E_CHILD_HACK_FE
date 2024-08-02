@@ -9,8 +9,8 @@ const MeetourTeam = () => {
     <Container id="teams">
         <Warpper>
             <UpHolder>
-                <p>E-Child Team Work</p>
-                <UpText>Meet our Team</UpText>
+            <UpText>Meet our Team</UpText>
+                <p>E-Child Team </p>
             </UpHolder>
             <DownHolder>
                 <Card>
@@ -81,7 +81,6 @@ const MeetourTeam = () => {
 export default MeetourTeam
 
 
-// const f = styled.div``
 
 const LogoHolder = styled.div`
 width: 250px;
@@ -136,6 +135,10 @@ gap: 20px;
 
 const UpText = styled.span`
 font-size: 20px;
+
+@media screen and (max-width:900px){
+  font-size: 30px;
+}
 `
 
 const DownHolder = styled.div`
@@ -145,24 +148,34 @@ display: flex;
 align-items: center;
 justify-content: center;
 gap: 40px;
+margin-top: 30px;
 
 @media screen and (max-width:900px){
   flex-wrap: wrap;
-  height: 200vh;
+  height: 240vh;
   margin-top: 20px;
 }
 `
 
 const UpHolder = styled.div`
-width: 600px;
+width: 30%;
 height: 100px;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
+margin-bottom: 30px;
+
+@media screen and (max-width:900px){
+  width: 70%;
+}
 
 p{
     font-size: 30px;
+    @media screen and (max-width:900px){
+    font-size: 19px;
+    margin-top: 10px;
+    }
 }
 `
 
@@ -190,7 +203,7 @@ align-items: center;
 justify-content: center;
 
 @media screen and (max-width:900px){
-  height: 130vh;
+  height: 190vh;
 }
 
 `

@@ -4,10 +4,31 @@ import { Link, useNavigate } from "react-router-dom";
 import {useForm} from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
+import { Toaster,toast } from 'sonner';
+import "react-toastify/dist/ReactToastify.css";
+import { FcApproval } from "react-icons/fc";
+import { useState,CSSProperties } from "react";
+import PulseLoader from "react-spinners/PulseLoader";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { userInfo } from "../components/Global/GlobalState";
 
 
 const Signup = () => {
-const navigate = useNavigate()
+
+  const  override:CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "white",
+    width: "20px",
+    height: "20px",
+    rotate: "90deg"
+  };
+
+  const [loading, SetLoading] = useState<boolean>(false)
+
+const navigate = useNavigate();
+const dispatch = useDispatch();
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -16,14 +37,36 @@ const schema = yup.object({
 
 const {register, handleSubmit,formState:{errors}} = useForm({resolver: yupResolver(schema)})
 
-const onSubmit = handleSubmit(async (data:any) =>{
-  console.log(data)
-  navigate("/")
+const onSubmit = handleSubmit(async (data: any) =>{
+  SetLoading(true)
+  await axios
+  .post(`https://e-child-be.onrender.com/api/v1/loginchild`, {
+    email: data?.email,
+    password: data?.password,
+  })
+  .then((res:any) =>{
+    console.log("res", res.data)
+    toast("LogIn Successfully",{
+      style: {
+  background: 'red',
+},
+icon: <FcApproval size={25}/>
+
+    });
+    SetLoading(false)
+    dispatch(userInfo(res!.data!.data!))
+    navigate("/dashboard")
+  })
+  .catch((error:any) =>{
+    SetLoading(false)
+    console.log(error)
+  })
 })
  
   return <>
   <Container>
   <Warpper>
+  <Toaster />
     <Left onSubmit={onSubmit}>
       <h1>Welcome Back!</h1>
      <Box>
@@ -36,7 +79,20 @@ const onSubmit = handleSubmit(async (data:any) =>{
         <input type="text" placeholder="Entre your password" {...register("password")}/>
         <span style={{color:"red"}}>{errors.email?.message}</span>
       </Box>
-      <Button type="submit">Signin</Button>
+      {
+     loading ?  <Button type="submit">
+        <PulseLoader
+
+          color={"white"}
+          loading={loading}
+          cssOverride={override}
+          size={20}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+        </Button>
+        : <Button type="submit">Signin</Button>
+     }
       <div style={{display:"flex", alignItems:"center", justifyContent:"center",marginTop:"10px"}}>
       <span >Don't have an account?</span>
       <Link to={"/signup"} style={{textDecoration:"none",color:"black",marginLeft:"5px", cursor:"pointer"}}>
@@ -108,19 +164,10 @@ img{
     margin-left: 90px;
   }
 }
-/* @media screen and (max-width:768px){
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  img{
-    height: 400px;
-    margin-left: 300px;
-  }
-} */
+
 `
 
-const Left = styled.div`
+const Left = styled.form`
 width: 46%;
 height: 50vh;
 background-color: #fff;
@@ -130,12 +177,10 @@ padding: 20px;
 
 @media screen and (max-width:900px){
   width: 100%;
-  height: 60vh;
+  height: 70vh;
   margin-top: 20px;
 }
-@media screen and (max-width:390px){
-  height: 50vh;
-}
+
 `
 
 const Warpper = styled.div`

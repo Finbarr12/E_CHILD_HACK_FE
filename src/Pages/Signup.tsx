@@ -4,33 +4,76 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
+import { Toaster,toast } from 'sonner';
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { FcApproval } from "react-icons/fc";
+import { useState,CSSProperties } from "react";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const Signup = () => {
+
+  const  override:CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "white",
+    width: "20px",
+    height: "20px",
+    rotate: "90deg"
+  };
+
+  const [loading, SetLoading] = useState<boolean>(false)
+  
+
+
   const navigate = useNavigate()
 
   const schema = yup.object({
-    firstName: yup.string().required(),
+    name: yup.string().required(),
     email: yup.string().email().required(),
-    classes: yup.string().required(),
-    aga: yup.number().positive().integer().required(),
+    class: yup.string().required(),
+    age: yup.string().required(),
     password: yup.string().required(),
   }).required()
 
   const {register, handleSubmit,formState:{errors},} = useForm({resolver: yupResolver(schema)})
  
   const onSubmit = handleSubmit(async(data:any) =>{
-    console.log(data)
-    navigate("/signin")
+    SetLoading(true)
+    await axios
+    .post(`https://e-child-be.onrender.com/api/v1/registerchild`,{
+        name: data?.name,
+        email: data?.email,
+        Class: data?.class,
+        age: data?.age,
+        password: data?.password,
+    })
+    .then(() =>{
+      toast("User created Successfully",{
+        style: {
+    background: 'red',
+  },
+  icon: <FcApproval size={25}/>
+  
+      });
+      SetLoading(false)
+      navigate("/signin");
+    })
+    .catch(() =>{
+      SetLoading(false)
+      toast("Error occur");
+    })
   })
   return <>
   <Container>
   <Warpper>
+  <Toaster />
     <Left onSubmit={onSubmit}>
       <h1>Get Started</h1>
       <Box>
         <span>Full Name</span>
-        <input type="text" placeholder="Entre your full name" {...register("firstName")}/>
-        <span>{errors.firstName?.message}</span>
+        <input type="text" placeholder="Entre your full name" {...register("name")}/>
+        <span>{errors.name?.message}</span>
       </Box>
       <BoxHolder>
       <Box1>
@@ -40,21 +83,34 @@ const Signup = () => {
       </Box1>
       <Box1>
         <span>Age</span>
-        <input type="number" placeholder=" your Age" {...register("aga")}/>
-        <span>{errors.aga?.message}</span>
+        <input type="text" placeholder=" your Age" {...register("age")}/>
+        <span>{errors.age?.message}</span>
       </Box1>
       </BoxHolder>
   <Box>
-        <span>Classes</span>
-        <input type="text" placeholder="Entre your Class" {...register("classes")}/>
-        <span>{errors.classes?.message}</span>
+        <span>Class</span>
+        <input type="text" placeholder="Entre your Class" {...register("class")}/>
+        <span>{errors.class?.message}</span>
       </Box>
   <Box>
         <span>Password</span>
         <input type="text" placeholder="Entre your password" {...register("password")}/>
         <span>{errors.password?.message}</span>
       </Box>
-      <Button type="submit">Signup</Button>
+     {
+     loading ?  <Button type="submit">
+        <PulseLoader
+
+          color={"white"}
+          loading={loading}
+          cssOverride={override}
+          size={20}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+        </Button>
+        : <Button type="submit">Signup</Button>
+     }
       <div style={{display:"flex", alignItems:"center", justifyContent:"center",marginTop:"10px"}}>
       <span>Already have an account?</span>
       <Link to={"/signin"} style={{textDecoration:"none",marginLeft:"5px"}}>
@@ -158,18 +214,17 @@ img{
 }
 `
 
-const Left = styled.div`
+const Left = styled.form`
 width: 48%;
 height: 83vh;
-background-color: #fff;
 border-radius: 40px;
-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+box-shadow: hsla(0, 0%, 0%, 0.24) 0px 3px 8px;
 padding: 20px;
 
 @media screen and (max-width:900px) {
   width: 100%;
   margin-top: 10px;
-  height: 90vh;
+  height: 130vh;
 }
 `
 

@@ -1,16 +1,16 @@
 import { NavLink } from "react-router-dom"
 import styled from "styled-components"
 import logo from "../../assets/EChild.png"
-// import { useState } from "react"
+import { useState } from "react"
 import { CiMenuBurger } from "react-icons/ci"
 
 const Header = () => {
 
-  // const [show, Setshow] = useState<boolean>(false)
+  const [show, Setshow] = useState<boolean>(false)
 
-  // const Toggle = () =>{
-  //   Setshow(!show)
-  // }
+  const Toggle = () =>{
+    Setshow(!show)
+  }
 
   return (
     <>
@@ -35,8 +35,24 @@ const Header = () => {
             <Button>Signin</Button>
             </NavLink>
           </Left>
-          <CiMenuBurger size={30} />
+          <Icon size={30} onClick={Toggle}/>
         </Warpper>
+       {
+        show ?  <Box>
+        <nav style={{fontSize:"23px",color:"white"}}>Home</nav>
+            <nav style={{fontSize:"23px",marginTop:"15px",color:"white"}}>Mission</nav>
+            <nav style={{fontSize:"23px",marginTop:"15px",color:"white"}}>Vision</nav>
+            <nav style={{fontSize:"23px",marginTop:"15px",color:"white"}}>Values</nav>
+            <nav style={{fontSize:"23px",marginTop:"15px",color:"white"}}>Teams</nav>
+            <NavLink to={"/signup"}>
+            <Button style={{fontSize:"23px",marginTop:"15px"}}>Signup</Button>
+            </NavLink>
+            <NavLink to={"/signin"}>
+            <Button style={{fontSize:"23px",marginTop:"18px"}}>Signin</Button>
+            </NavLink>
+
+        </Box> : null
+       }
     </Container>
       
     
@@ -47,7 +63,25 @@ const Header = () => {
 
 export default Header
 
+const Icon = styled(CiMenuBurger)`
+display: none;
 
+@media screen and (max-width:900px){
+  display: flex;
+}
+`
+
+const Box = styled.div`
+width: 390px;
+height: 450px;
+background-color: rgba(0,0,0,0.4);
+position: absolute;
+top: 71px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+`
 
 const Button = styled.button`
 width: 100px;

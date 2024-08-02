@@ -17,7 +17,7 @@ const HeroOne = () => {
             </Card>
             <Card>
             <Box></Box>
-            <h2>Progress Tracking <br /> & Reporting</h2>
+            <h2 style={{textAlign:"center"}}>Progress Tracking <br /> & Reporting</h2>
             <span>Provide a variety of fun and educational games <br /> and activities that cover different subjects such as <br /> math, science, language arts, and geography</span>
             </Card>
         </Main>
@@ -48,12 +48,12 @@ flex-direction: column;
 padding-left: 10px;
 
 @media screen and (max-width:900px){
-    display: flex;
+display: flex;
 align-items: center;
 justify-content: center;
 flex-direction: column;
-padding-left: 10px;
-width: 85%;
+padding: 0;
+width: 100%;
 }
 
 
@@ -64,9 +64,12 @@ span{
     font-weight: 500;
     margin-top: 20px;
     font-family: "Princess Sofia", cursive;
+    text-align: center;
 
     @media screen and (max-width:900px){
-   margin-left: 70px;
+      width: 80%;
+  font-size: 12px;
+  text-align: center;
 }
 }
 
@@ -87,19 +90,19 @@ const Main = styled.div`
     @media screen and (max-width:900px){
    display: grid;
    grid-template-columns: repeat(1,1fr);
-   height: 120vh;
+   height: 150vh;
 }
 `
 
 const Container = styled.div`
 width: 100%;
 height: 80vh;
-background-color: #FFFBF5;
+/* // background-color: #FFFBF5; */
 display: flex;
 justify-content: center;
 align-items: center;
 
 @media screen and (max-width:900px){
-  height: 130vh;
+  height: 170vh;
 }
 `

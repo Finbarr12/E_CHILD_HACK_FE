@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom"
 const AboutUs = () => {
   return (
     <>
-    <Container>\
+    <Container>
         <Main>
             <Left>
                 <img src={img} alt="loading..." />
@@ -56,11 +56,14 @@ padding: 10px;
 
 @media screen and (max-width:900px){
  width: 80%;
+ margin-top: 0;
 }
 
 div{
     color: white;
     margin-top: 20px;
+
+
 }
 
 h1{
@@ -71,11 +74,24 @@ h1{
 
 const Left = styled.div`
 width: 500px;
-height: 450px;
+height: 390px;
+overflow: hidden;
+
+@media screen and (max-width:900px){
+    height: 230px;
+   width: 300px;
+   display: flex;
+   justify-content: center;
+   }
 
 img{
+    width: 100%;
+height: 100%;
+object-fit: cover;
     @media screen and (max-width:900px){
- height: 260px;
+width: 100%;
+height: 100%;
+object-fit: cover;
 }
 }
 `
@@ -87,10 +103,14 @@ const Main = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    
 
     @media screen and (max-width:900px){
-  display: block;
-  height: 120vh;
+        display: flex;
+    align-items: center;
+    justify-content: center;
+        flex-direction: column;
+  height: 122vh;
 }
 `
 
@@ -103,6 +123,6 @@ const Container = styled.div`
     background-repeat: no-repeat;
 
 @media screen and (max-width:900px){
- height: 120vh;
+ height: 122vh;
 }
 `
