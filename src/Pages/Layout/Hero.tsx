@@ -19,9 +19,9 @@ const Hero = () => {
       <Container>
         <Box>
           <h3 style={{color:"#e22e6e"}}>Welcome back to school</h3>
-          <h1>Where Education</h1>
-          <h1>Meets Imagination</h1>
-          <span>welcome to E-Child where every child's potential is nurtured through quality education and <br /> postivie values. inspiring young minds to explore, learn, and grow together.</span>
+          <h1 style={{marginTop:"20px"}}>Where Education</h1>
+          <h1 style={{marginTop:"20px"}}>Meets Imagination</h1>
+          <span style={{marginTop:"20px"}}>welcome to E-Child where every child's potential is nurtured through quality education and <br /> postivie values. inspiring young minds to explore, learn, and grow together.</span>
           <NavLink to={"/signup"} style={{textDecoration:"none"}}>
           <ButtonHolder>
           <p>Get Started</p>
@@ -58,7 +58,7 @@ const Box = styled.div`
 width: 800px;
 min-height: 200px;
 margin-left: 150px;
-margin-top: 300px;
+margin-top: 250px;
 display: flex;
 flex-direction: column;
 

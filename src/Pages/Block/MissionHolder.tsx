@@ -117,7 +117,7 @@ const Main = styled.div`
   @media screen and (max-width:900px){
    display: grid;
    grid-template-columns: repeat(1,1fr);
-   height: 220vh;
+   height: 270vh;
 }
 `
 
@@ -130,6 +130,6 @@ const Container = styled.div`
     justify-content: center;
 
     @media screen and (max-width:900px){
-  height: 250vh;
+  height: 290vh;
 }
 `

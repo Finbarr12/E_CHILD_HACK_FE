@@ -2,6 +2,7 @@ import { FaFacebook, FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa"
 import styled from "styled-components"
 import finbarr from "../../assets/finbarr1.jpg"
 import johnbosco from "../../assets/john.jpg"
+import Eva from "../../assets/Eva.jpg"
 
 const MeetourTeam = () => {
   return (
@@ -71,6 +72,25 @@ const MeetourTeam = () => {
                     </Circle1>
                     </LogoHolder>
                 </Card>
+                <Card>
+                    <Circle>
+                    <img src={Eva} alt="loading..." />
+                    </Circle>
+                    <h1 style={{fontSize:"19px"}}>NNADI EVARISTUS</h1>
+                    <span>Project Mangement</span>
+                    <LogoHolder style={{width:"100px"}}>
+                    <Circle1>
+                    <a href="https://www.facebook.com/profile.php?id=100089064367103&mibextid=LQQJ4d">
+                    <FaFacebook size={20}/>
+                    </a>
+                    </Circle1>
+                    <Circle1>
+                    <a href="https://wa.me/2349123289362">
+                    <FaWhatsapp size={20}/>
+                    </a>
+                    </Circle1>
+                    </LogoHolder>
+                </Card>
             </DownHolder>
         </Warpper>
     </Container>
@@ -89,7 +109,6 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 `
-
 
 const Circle1 = styled.div`
 width: 30px;
@@ -152,7 +171,7 @@ margin-top: 30px;
 
 @media screen and (max-width:900px){
   flex-wrap: wrap;
-  height: 240vh;
+  height: 250vh;
   margin-top: 20px;
 }
 `
@@ -189,7 +208,7 @@ align-items: center;
 justify-content: center;
 
 @media screen and (max-width:900px){
-  height: 110vh;
+  height: 140vh;
 }
 
 `
@@ -203,7 +222,7 @@ align-items: center;
 justify-content: center;
 
 @media screen and (max-width:900px){
-  height: 190vh;
+  height: 270vh;
 }
 
 `
