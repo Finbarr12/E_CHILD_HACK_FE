@@ -1,26 +1,26 @@
+// reducers/authReducer.ts
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: {} || null,
+  user: null,
   toggle: false,
 };
 
-const GlobalState: any = createSlice({
+const GlobalState = createSlice({
   name: "second",
   initialState,
   reducers: {
-    userInfo: (state: any, { payload }: any) => {
+    userInfo: (state, { payload }) => {
       state.user = payload;
     },
     onToggle: (state) => {
       state.toggle = !state.toggle;
     },
-    logOut: (state: any) => {
+    logOut: (state) => {
       state.user = null;
     },
   },
 });
 
 export const { userInfo, onToggle, logOut } = GlobalState.actions;
-
 export default GlobalState.reducer;

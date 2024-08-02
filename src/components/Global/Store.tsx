@@ -1,9 +1,12 @@
+// store.ts
 import { configureStore } from "@reduxjs/toolkit";
-import { userInfo } from "./GlobalState";
-
+import GlobalState from "../../components/Global/GlobalState";
 
 export const store = configureStore({
-    reducer: {
-        change: userInfo,
-    },
+  reducer: {
+    change: GlobalState,
+  },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

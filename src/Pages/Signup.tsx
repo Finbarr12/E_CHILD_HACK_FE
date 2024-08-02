@@ -4,11 +4,28 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster,toast } from 'sonner';
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { FcApproval } from "react-icons/fc";
+import { useState,CSSProperties } from "react";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const Signup = () => {
+
+  const  override:CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "white",
+    width: "20px",
+    height: "20px",
+    rotate: "90deg"
+  };
+
+  const [loading, SetLoading] = useState<boolean>(false)
+  
+
+
   const navigate = useNavigate()
 
   const schema = yup.object({
@@ -22,26 +39,35 @@ const Signup = () => {
   const {register, handleSubmit,formState:{errors},} = useForm({resolver: yupResolver(schema)})
  
   const onSubmit = handleSubmit(async(data:any) =>{
+    SetLoading(true)
     await axios
     .post(`https://e-child-be.onrender.com/api/v1/registerchild`,{
         name: data?.name,
         email: data?.email,
-        class: data?.Class,
+        Class: data?.class,
         age: data?.age,
         password: data?.password,
     })
     .then(() =>{
+      toast("User created Successfully",{
+        style: {
+    background: 'red',
+  },
+  icon: <FcApproval size={25}/>
+  
+      });
+      SetLoading(false)
       navigate("/signin");
-      toast("User created Successfully");
     })
     .catch(() =>{
+      SetLoading(false)
       toast("Error occur");
     })
   })
   return <>
   <Container>
   <Warpper>
-  <ToastContainer position="bottom-center" />
+  <Toaster />
     <Left onSubmit={onSubmit}>
       <h1>Get Started</h1>
       <Box>
@@ -71,7 +97,20 @@ const Signup = () => {
         <input type="text" placeholder="Entre your password" {...register("password")}/>
         <span>{errors.password?.message}</span>
       </Box>
-      <Button type="submit">Signup</Button>
+     {
+     loading ?  <Button type="submit">
+        <PulseLoader
+
+          color={"white"}
+          loading={loading}
+          cssOverride={override}
+          size={20}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+        </Button>
+        : <Button type="submit">Signup</Button>
+     }
       <div style={{display:"flex", alignItems:"center", justifyContent:"center",marginTop:"10px"}}>
       <span>Already have an account?</span>
       <Link to={"/signin"} style={{textDecoration:"none",marginLeft:"5px"}}>
@@ -175,18 +214,17 @@ img{
 }
 `
 
-const Left = styled.div`
+const Left = styled.form`
 width: 48%;
 height: 83vh;
-background-color: #fff;
 border-radius: 40px;
-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+box-shadow: hsla(0, 0%, 0%, 0.24) 0px 3px 8px;
 padding: 20px;
 
 @media screen and (max-width:900px) {
   width: 100%;
   margin-top: 10px;
-  height: 90vh;
+  height: 130vh;
 }
 `
 

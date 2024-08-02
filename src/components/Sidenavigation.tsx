@@ -12,9 +12,9 @@ interface iside {
 
 const Sidenavigation: React.FC<iside> = ({ text, color, icon, mt, to }) => {
   const location = useLocation();
-  const isActive = location.pathname === to;
+  const isActive = location.pathname === to.toString();
   return (
-    <Container to={to} cl={color} mt={mt} active={isActive}>
+    <Container to={to} cl={color} mt={mt} active={isActive.toString()}>
       {icon}
       <p>{text}</p>
     </Container>
@@ -23,14 +23,13 @@ const Sidenavigation: React.FC<iside> = ({ text, color, icon, mt, to }) => {
 
 export default Sidenavigation;
 
-const Container = styled(Link)<{ cl: string; mt: string; active: boolean }>`
+const Container = styled(Link)<{ cl: string; mt: string; active: string }>`
   width: 90%;
   height: 60px;
-  background-color: ${({ cl, active }) => (active ? cl : "transparent")};
+  background-color: ${({ cl, active }) => (active === "true" ? cl : "transparent")};
   margin-top: ${({ mt }) => mt};
   display: flex;
   align-items: center;
-  /* justify-content: center; */
   gap: 10px;
   border-radius: 10px;
   transition: all 350ms ease-in-out;

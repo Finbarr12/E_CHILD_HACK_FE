@@ -24,15 +24,16 @@ export const mainroute = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <PrivateRouter>
+    <Dashboard />, 
+    </PrivateRouter>
+    ),
     children: [
       {
         index: true,
-        element: (
-          <PrivateRouter>
+        element: 
             <RightSide />,
-          </PrivateRouter>
-        )
       },
       {
         path: "/dashboard/quiz",
