@@ -4,33 +4,50 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate()
 
   const schema = yup.object({
-    firstName: yup.string().required(),
+    name: yup.string().required(),
     email: yup.string().email().required(),
-    classes: yup.string().required(),
-    aga: yup.number().positive().integer().required(),
+    class: yup.string().required(),
+    age: yup.string().required(),
     password: yup.string().required(),
   }).required()
 
   const {register, handleSubmit,formState:{errors},} = useForm({resolver: yupResolver(schema)})
  
   const onSubmit = handleSubmit(async(data:any) =>{
-    console.log(data)
-    navigate("/signin")
+    await axios
+    .post(`https://e-child-be.onrender.com/api/v1/registerchild`,{
+        name: data?.name,
+        email: data?.email,
+        class: data?.Class,
+        age: data?.age,
+        password: data?.password,
+    })
+    .then(() =>{
+      navigate("/signin");
+      toast("User created Successfully");
+    })
+    .catch(() =>{
+      toast("Error occur");
+    })
   })
   return <>
   <Container>
   <Warpper>
+  <ToastContainer position="bottom-center" />
     <Left onSubmit={onSubmit}>
       <h1>Get Started</h1>
       <Box>
         <span>Full Name</span>
-        <input type="text" placeholder="Entre your full name" {...register("firstName")}/>
-        <span>{errors.firstName?.message}</span>
+        <input type="text" placeholder="Entre your full name" {...register("name")}/>
+        <span>{errors.name?.message}</span>
       </Box>
       <BoxHolder>
       <Box1>
@@ -40,14 +57,14 @@ const Signup = () => {
       </Box1>
       <Box1>
         <span>Age</span>
-        <input type="text" placeholder=" your Age" {...register("aga")}/>
-        <span>{errors.aga?.message}</span>
+        <input type="text" placeholder=" your Age" {...register("age")}/>
+        <span>{errors.age?.message}</span>
       </Box1>
       </BoxHolder>
   <Box>
-        <span>Classes</span>
-        <input type="text" placeholder="Entre your Class" {...register("classes")}/>
-        <span>{errors.classes?.message}</span>
+        <span>Class</span>
+        <input type="text" placeholder="Entre your Class" {...register("class")}/>
+        <span>{errors.class?.message}</span>
       </Box>
   <Box>
         <span>Password</span>

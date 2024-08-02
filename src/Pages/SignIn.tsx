@@ -4,10 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import {useForm} from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { userInfo } from "../components/Global/GlobalState";
 
 
 const Signup = () => {
-const navigate = useNavigate()
+const navigate = useNavigate();
+const dispatch = useDispatch();
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -16,14 +22,27 @@ const schema = yup.object({
 
 const {register, handleSubmit,formState:{errors}} = useForm({resolver: yupResolver(schema)})
 
-const onSubmit = handleSubmit(async (data:any) =>{
-  console.log(data)
-  navigate("/")
+const onSubmit = handleSubmit(async (data: any) =>{
+  await axios
+  .post(`https://e-child-be.onrender.com/api/v1/loginchild`, {
+    email: data?.email,
+    password: data?.password,
+  })
+  .then((res:any) =>{
+    dispatch(userInfo(res!.data!.data!))
+    navigate("/dashboard")
+    toast("LogIn Successfully");
+    return res.data.data
+  })
+  .catch((error:any) =>{
+    console.log(error)
+  })
 })
  
   return <>
   <Container>
   <Warpper>
+  <ToastContainer position="bottom-center" />
     <Left onSubmit={onSubmit}>
       <h1>Welcome Back!</h1>
      <Box>
