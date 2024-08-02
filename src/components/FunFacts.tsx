@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import did from "../assets/didrm.png";
-import styled from "styled-components";
+import write from "../assets/write_rm.png";
+import styled, { keyframes } from "styled-components";
 
 const FunFacts = () => {
   const [facts, setFacts] = useState<string[]>([]);
@@ -77,7 +78,12 @@ const FunFacts = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Container>
+        <Image src={write} alt="Pencil" />
+        <p>Loading...</p>
+      </Container>
+    );
   }
 
   if (error) {
@@ -110,6 +116,20 @@ const FunFacts = () => {
 };
 
 export default FunFacts;
+
+const writingEffect = keyframes`
+  0% {
+    clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
+  }
+  100% {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+`;
+
+const Image = styled.img`
+  height: 300px;
+  animation: ${writingEffect} 2s ease-in-out forwards;
+`;
 
 const Container = styled.div`
   width: 80%;
