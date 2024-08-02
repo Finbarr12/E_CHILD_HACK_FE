@@ -7,6 +7,7 @@ import RightSide from "../components/RightSide";
 import Quiz from "../components/Quiz";
 import Poems from "../components/Poems";
 import FunFacts from "../components/FunFacts";
+import PrivateRouter from "./PrivateRouter";
 
 export const mainroute = createBrowserRouter([
   {
@@ -27,7 +28,11 @@ export const mainroute = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <RightSide />,
+        element: (
+          <PrivateRouter>
+            <RightSide />,
+          </PrivateRouter>
+        )
       },
       {
         path: "/dashboard/quiz",
