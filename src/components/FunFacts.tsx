@@ -121,6 +121,10 @@ const Container = styled.div`
 
   img {
     height: 370px;
+
+    @media screen and (max-width: 500px) {
+      height: 200px;
+    }
   }
 
   p {
@@ -129,11 +133,20 @@ const Container = styled.div`
     margin: 0;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     text-align: center;
+
+    @media screen and (max-width: 500px) {
+      font-size: 15px;
+      width: 80%;
+    }
   }
 `;
 const ButtonHolder = styled.div`
   display: flex;
   gap: 25px;
+
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
 
   button {
     width: 200px;
@@ -146,5 +159,9 @@ const ButtonHolder = styled.div`
     border: none;
     font-family: "Butterfly Kids", cursive;
     cursor: pointer;
+
+    @media screen and (max-width: 500px) {
+      width: 70%;
+    }
   }
 `;
