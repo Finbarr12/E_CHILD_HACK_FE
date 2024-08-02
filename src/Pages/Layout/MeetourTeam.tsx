@@ -222,6 +222,6 @@ align-items: center;
 justify-content: center;
 
 @media screen and (max-width:900px){
-  height: 200vh;
+  height: 260vh;
   }
 `

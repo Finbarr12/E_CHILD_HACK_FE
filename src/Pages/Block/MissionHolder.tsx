@@ -8,19 +8,15 @@ const MissionHolder = () => {
         <Main>
           <Card style={{backgroundColor:"#FFF2EC"}}>
             <Box></Box>
-            <h1>Our Mission</h1>
-            <span>
+            <h1 style={{marginTop:"20px"}}>Our Mission</h1>
+            <p style={{marginTop:"20px"}}>
             Our mission is to provide a safe, 
-engaging, and educational digital 
-companion that nurtures 
-children's curiosity, creativity, 
-and learning, while ensuring 
-their well
--being and 
-development through cutting
--
-edge AI technology.
-            </span>
+            engaging, and educational digital 
+            companion that nurtures 
+            children's curiosity, creativity, 
+            and learning, while ensuring 
+            their well-being and development through cutting-edge AI technology.
+            </p>
             <ButtonHolder>
           <p>Learn more</p>
           <FiArrowUpRight size={25} style={{ marginLeft:"20px"}}/>
@@ -28,12 +24,12 @@ edge AI technology.
           </Card>
           <Card style={{backgroundColor:"#ECF5C6"}}>
             <Box></Box>
-            <h1>Our vision</h1>
-            <span>
+            <h1 style={{marginTop:"20px"}}>Our vision</h1>
+            <p style={{marginTop:"20px"}}>
             Our vision is to be the leading AI-driven platform that revolutionizes the way children 
             interact with technology, offering personalized and adaptive learning experiences that 
             empower the next generation to thrive in an ever-evolving digital world.
-            </span>
+            </p>
             <ButtonHolder>
           <p>Learn more</p>
           <FiArrowUpRight size={25} style={{ marginLeft:"20px"}}/>
@@ -41,8 +37,8 @@ edge AI technology.
           </Card>
           <Card style={{backgroundColor:"#FFEAC8"}}>
             <Box></Box>
-            <h1>Our Values</h1>
-            <p>
+            <h1 style={{marginTop:"20px"}}>Our Values</h1>
+            <p style={{marginTop:"20px"}}>
             1. Safety First: Ensuring a secure and protected environment 
             for children to explore and learn.
             </p>
@@ -117,7 +113,7 @@ const Main = styled.div`
   @media screen and (max-width:900px){
    display: grid;
    grid-template-columns: repeat(1,1fr);
-   height: 270vh;
+   height: 290vh;
 }
 `
 
@@ -130,6 +126,6 @@ const Container = styled.div`
     justify-content: center;
 
     @media screen and (max-width:900px){
-  height: 290vh;
+  height: 300vh;
 }
 `
