@@ -72,8 +72,8 @@ display: none;
 `
 
 const Box = styled.div`
-width: 390px;
-height: 450px;
+width: 100%;
+height: 550px;
 background-color: rgba(0,0,0,0.4);
 position: absolute;
 top: 71px;
