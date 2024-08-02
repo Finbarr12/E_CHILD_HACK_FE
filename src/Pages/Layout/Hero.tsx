@@ -56,7 +56,7 @@ p{
 `
 
 const Box = styled.div`
-width: 700px;
+width: 800px;
 min-height: 200px;
 margin-left: 150px;
 margin-top: 300px;
