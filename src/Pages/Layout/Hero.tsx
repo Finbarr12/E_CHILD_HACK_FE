@@ -44,7 +44,6 @@ border-radius: 40px;
 display: flex;
 align-items: center;
 justify-content: center;
-margin-left: 30px;
 margin-top: 30px;
 cursor: pointer;
 

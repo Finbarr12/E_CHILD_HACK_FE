@@ -40,7 +40,7 @@ const Signup = () => {
       </Box1>
       <Box1>
         <span>Age</span>
-        <input type="number" placeholder=" your Age" {...register("aga")}/>
+        <input type="text" placeholder=" your Age" {...register("aga")}/>
         <span>{errors.aga?.message}</span>
       </Box1>
       </BoxHolder>
