@@ -225,6 +225,7 @@ padding: 20px;
   width: 100%;
   margin-top: 10px;
   height: 130vh;
+  padding: 0;
 }
 `
 
@@ -237,6 +238,7 @@ justify-content: space-between;
 
 @media screen and (max-width:900px) {
   flex-wrap: wrap;
+  /* background-color: red; */
 }
 `
 
@@ -247,4 +249,5 @@ background-color: #FFFFFF;
 display: flex;
 align-items: center;
 justify-content: center;
+
 `
