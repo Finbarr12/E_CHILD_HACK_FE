@@ -114,6 +114,8 @@ const Main = styled.div`
    display: grid;
    grid-template-columns: repeat(1,1fr);
    height: 290vh;
+
+
 }
 `
 
@@ -128,4 +130,8 @@ const Container = styled.div`
     @media screen and (max-width:900px){
   height: 300vh;
 }
+
+@media screen and (max-width:320px){
+  height: 330vh;
+  }
 `

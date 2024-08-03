@@ -69,6 +69,10 @@ div{
 h1{
     color: white;
     margin-top: 40px;
+
+    @media screen and (max-width:320px){
+        font-size: 28px;
+  }
 }
 `
 
@@ -107,11 +111,15 @@ const Main = styled.div`
 
     @media screen and (max-width:900px){
         display: flex;
-    align-items: center;
-    justify-content: center;
+        align-items: center;
+        justify-content: center;
         flex-direction: column;
-  height: 122vh;
+        height: 122vh;
 }
+
+@media screen and (max-width:320px){
+  height: 150vh;
+  }
 `
 
 const Container = styled.div`
@@ -125,4 +133,8 @@ const Container = styled.div`
 @media screen and (max-width:900px){
  height: 122vh;
 }
+
+@media screen and (max-width:320px){
+  height: 150vh;
+  }
 `

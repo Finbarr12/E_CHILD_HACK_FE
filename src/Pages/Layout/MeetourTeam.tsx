@@ -158,6 +158,9 @@ font-size: 20px;
 @media screen and (max-width:900px){
   font-size: 30px;
 }
+@media screen and (max-width:320px){
+  font-size: 25px;
+}
 `
 
 const DownHolder = styled.div`
@@ -222,6 +225,9 @@ align-items: center;
 justify-content: center;
 
 @media screen and (max-width:900px){
+  height: 260vh;
+  }
+@media screen and (max-width:320px){
   height: 260vh;
   }
 `
