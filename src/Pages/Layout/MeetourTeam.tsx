@@ -18,7 +18,7 @@ const MeetourTeam = () => {
                     <Circle>
                         <img src={finbarr} alt="loading..."/>
                     </Circle>
-                    <h1>Ogbonna Finbarr</h1>
+                    <h1 style={{fontSize:"22px",fontFamily:"cursive"}}>Ogbonna Finbarr</h1>
                     <span>Full Stack (MERN) Developer</span>
                     <LogoHolder>
                     <Circle1>
@@ -47,7 +47,7 @@ const MeetourTeam = () => {
                     <Circle>
                     <img src={johnbosco} alt="loading..." />
                     </Circle>
-                    <h1>Okonkwo Onyedika</h1>
+                    <h1 style={{fontSize:"22px",fontFamily:"cursive"}}>Okonkwo Onyedika</h1>
                     <span>Full Stack (MERN) Developer</span>
                     <LogoHolder>
                     <Circle1>
@@ -76,8 +76,8 @@ const MeetourTeam = () => {
                     <Circle>
                     <img src={Eva} alt="loading..." />
                     </Circle>
-                    <h1 style={{fontSize:"19px"}}>NNADI EVARISTUS</h1>
-                    <span>Project Mangement</span>
+                    <h1 style={{fontSize:"22px",fontFamily:"cursive"}}>NNADI EVARISTUS</h1>
+                    <span style={{fontSize:"20px"}}>Project Manager</span>
                     <LogoHolder style={{width:"100px"}}>
                     <Circle1>
                     <a href="https://www.facebook.com/profile.php?id=100089064367103&mibextid=LQQJ4d">
@@ -222,7 +222,6 @@ align-items: center;
 justify-content: center;
 
 @media screen and (max-width:900px){
-  height: 270vh;
-}
-
+  height: 260vh;
+  }
 `
