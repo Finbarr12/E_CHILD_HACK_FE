@@ -83,7 +83,7 @@ const AskQuestion = () => {
       ) {
         const aiResponse = `I am ${
           teacher === "Clara" ? "Mrs. Clara" : "Mr. Alvin"
-        }, your AI instructor, created by Ogbonna Finbarr and Okonkwo Johnbosco.`;
+        }, your AI instructor, created by Ogbonna Finbarr,Okonkwo Johnboscoa and Cadet Nnadi Evaristus`;
         setResponses((prevResponses: any) => {
           const newResponses = [
             ...prevResponses,

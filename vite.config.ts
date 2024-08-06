@@ -8,4 +8,7 @@ export default defineConfig({
     include: /src\/.*\.tsx?$/,
     exclude: /node_modules/,
   },
+  build: {
+    outDir: "dist",
+  },
 });
