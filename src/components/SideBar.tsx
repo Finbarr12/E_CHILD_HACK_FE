@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import logo from "../assets/fornylogo.svg";
+import logo from "../assets/EChild.png";
 import Sidenavigation from "./Sidenavigation";
 import { RiHomeSmile2Fill } from "react-icons/ri";
 import { MdOutlineQuiz } from "react-icons/md";
