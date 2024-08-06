@@ -76,7 +76,7 @@ const MeetourTeam = () => {
                     <Circle>
                     <img src={Eva} alt="loading..." />
                     </Circle>
-                    <h1 style={{fontSize:"22px"}}>NNADI EVARISTUS</h1>
+                    <h1 style={{fontSize:"22px"}}>Nnadi Evaristus</h1>
                     <span style={{fontSize:"20px"}}>Project Manager</span>
                     <LogoHolder style={{width:"100px"}}>
                     <Circle1>

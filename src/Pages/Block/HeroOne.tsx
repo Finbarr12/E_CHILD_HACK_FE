@@ -60,10 +60,11 @@ width: 100%;
 
 span{
     width: 400px;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 500;
     margin-top: 20px;
-    font-family: "Princess Sofia", cursive;
+    /* font-family: "Princess Sofia", cursive; */
+    font-family: 'Times New Roman', Times, serif;
     text-align: center;
 
     @media screen and (max-width:900px){
@@ -76,7 +77,8 @@ span{
 h2{
     font-weight: 600;
     margin-top: 20px;
-    font-family: "Butterfly Kids", cursive;
+    /* font-family: "Butterfly Kids", cursive; */
+    font-family: Arial, Helvetica, sans-serif;
 }
 `
     
@@ -97,7 +99,6 @@ const Main = styled.div`
 const Container = styled.div`
 width: 100%;
 height: 80vh;
-/* // background-color: #FFFBF5; */
 display: flex;
 justify-content: center;
 align-items: center;
