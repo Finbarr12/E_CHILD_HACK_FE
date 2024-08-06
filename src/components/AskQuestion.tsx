@@ -83,7 +83,7 @@ const AskQuestion = () => {
       ) {
         const aiResponse = `I am ${
           teacher === "Clara" ? "Mrs. Clara" : "Mr. Alvin"
-        }, your AI instructor, created by Ogbonna Finbarr,Okonkwo Johnboscoa and Cadet Nnadi Evaristus`;
+        },your AI instructor. I was created by an exceptional team of experts: Ogbonna Finbarr, a full stack developer specializing in MERN and Python Flask; Okonkwo Johnbosco, a full stack developer with expertise in the MERN stack; and Cadet Nnadi Evaristus, a marine cadet and project manager. Together, they have crafted me to assist you on your educational journey, making learning engaging and accessible.`;
         setResponses((prevResponses: any) => {
           const newResponses = [
             ...prevResponses,
